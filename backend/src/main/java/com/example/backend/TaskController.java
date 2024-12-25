@@ -9,9 +9,9 @@ public class TaskController {
     private final TaskService taskService = new TaskService();
 
     @PostMapping
-    public ResponseEntity<?> addTask(@RequestBody Task task) {
-        taskService.addTask(task.getName(), task.isCompleted());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Task> addTask(@RequestBody Task task) {
+        Task createdTask = taskService.addTask(task.getName(), task.isCompleted());
+        return ResponseEntity.ok(createdTask);
     }
 
     @DeleteMapping("/{id}")
@@ -19,6 +19,15 @@ public class TaskController {
         taskService.deleteTaskById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/completed")
+    public ResponseEntity<Integer> deleteCompletedTasks() {
+        int deletedCount = taskService.deleteCompletedTasks();
+        System.out.println("Deleting completed tasks...");
+        System.out.println("Amount of deleted tasks: " + deletedCount);
+        return ResponseEntity.ok(deletedCount); // Return the count as a JSON number
+    }
+
 
     @GetMapping
     public ResponseEntity<?> getAllTasks() {

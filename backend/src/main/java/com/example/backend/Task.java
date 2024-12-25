@@ -40,7 +40,6 @@ public class Task {
     // Override toString method
     @Override
     public String toString() {
-        return id +
-                ". " + name;
+        return id + ". " + name;
     }
 }

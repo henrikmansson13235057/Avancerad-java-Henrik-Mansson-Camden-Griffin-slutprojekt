@@ -5,20 +5,24 @@ import java.util.List;
 
 public class TaskService {
     private final List<Task> taskList = new ArrayList<>();
+    private int nextId = 1;
 
-    public void addTask(String name, boolean completed) {
-        int id = taskList.size();
-        Task task = new Task(id, name, completed);
+    public Task addTask(String name, boolean completed) {
+        Task task = new Task(nextId++, name, completed);
         taskList.add(task);
+        return task;
     }
 
     public void deleteTaskById(int id) {
-        if (id >= 0 && id < taskList.size()) {
-            taskList.remove(id);
-            for (int i = 0; i < taskList.size(); i++) {
-                taskList.get(i).setId(i);
-            }
-        }
+        taskList.removeIf(task -> task.getId() == id);
+        reassignIds();
+    }
+
+    public int deleteCompletedTasks() {
+        int initialSize = taskList.size();
+        taskList.removeIf(Task::isCompleted);
+        reassignIds();
+        return initialSize - taskList.size();
     }
 
     public List<Task> getAllTasks() {
@@ -26,10 +30,21 @@ public class TaskService {
     }
 
     public void updateTask(int id, Task updatedTask) {
-        if (id >= 0 && id < taskList.size()) {
-            Task task = taskList.get(id);
+        Task task = taskList.stream()
+                .filter(t -> t.getId() == id)
+                .findFirst()
+                .orElse(null);
+        if (task != null) {
             task.setName(updatedTask.getName());
             task.setCompleted(updatedTask.isCompleted());
         }
     }
+
+    private void reassignIds() {
+        nextId = 1;
+        for (Task task : taskList) {
+            task.setId(nextId++);
+        }
+    }
 }
+

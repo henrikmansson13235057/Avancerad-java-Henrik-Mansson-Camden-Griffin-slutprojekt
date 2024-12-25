@@ -1,18 +1,25 @@
 package com.example.frontend;
 
+import com.google.gson.annotations.Expose;
+
 public class Task {
+    @Expose
     private int id;
+
+    @Expose
     private String name;
+
+    @Expose
     private boolean completed;
 
-    // Constructor
+    // task constructor
     public Task(int id, String name, boolean completed) {
         this.id = id;
         this.name = name;
         this.completed = completed;
     }
 
-    // Getters and Setters
+    // getters and setters
     public int getId() {
         return id;
     }
@@ -37,10 +44,9 @@ public class Task {
         this.completed = completed;
     }
 
-    // Override toString method
+    // overrides toString method
     @Override
     public String toString() {
-        return id +
-                ". " + name;
+        return id + ". " + name;
     }
 }
