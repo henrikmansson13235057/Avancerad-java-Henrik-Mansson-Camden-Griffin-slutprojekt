@@ -91,6 +91,7 @@ public class ToDoListApp extends Application {
         taskInput = new TextField();
         taskInput.setPromptText("Enter new task name");
         taskInput.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+        taskInput.setStyle("-fx-background-color: #FFFF99; -fx-border-color: grey;");
 
 
         addButton.setOnAction(e -> addTask(taskInput.getText()));
@@ -156,8 +157,9 @@ public class ToDoListApp extends Application {
         VBox layout = new VBox(10, title, taskInput, buttons, taskListView);
         layout.setAlignment(Pos.CENTER);
         layout.setSpacing(10);
+        layout.setStyle("-fx-background-color: #FFFF99;");
 
-        Scene scene = new Scene(layout, 600, 400);
+        Scene scene = new Scene(layout, 700, 700);
         primaryStage.setTitle("To-Do List");
         primaryStage.setScene(scene);
         primaryStage.show();
